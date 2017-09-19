@@ -41,12 +41,12 @@ route.route('/about')
     });
 
 route.get('/logout', (req, res) => {
-    res.clearCookie(req.session.name);
     if (typeof req.session !== 'undefined')
         req.session.destroy((err) => {
             console.log('session was destroyed');
             // req.session.reload();
             // req.logout();
+            res.clearCookie('my.connect.sid');
             res.redirect('/about');
         });
     else {
