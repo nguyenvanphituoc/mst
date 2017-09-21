@@ -133,7 +133,7 @@ var UserSchema = new Schema({
     password: { type: String, required: true, validate: passwordValidators }
 });
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', function(next) {
     if (!this.isModified('passwd'))
         return next();
     bcrypt.hash(this.passwd, null, null, (err, hash) => {
