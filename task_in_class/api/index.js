@@ -3,20 +3,24 @@ const express = require('express'),
     bodyParse = require('body-parser'),
     mongoose = require('mongoose'),
     FileStore = require('session-file-store')(session),
+    livereload  = require("connect-livereload"),
     database = 'MyApp',
     port = 8080;
 
 const app = express();
 
+app.use('/css', express.static(__dirname + '/view/css'));
+app.use('/js', express.static(__dirname + '/view/js'));
 app.use(bodyParse.urlencoded());
+app.use(bodyParse.json());
 const SessionOption = {
     name: 'my.connect.sid',
     secret: 'keyboard cat',
     cookie: {
         maxAge: 2628000000
     },
-    // resave: true,
-    saveUninittialized: true,
+    resave : true,
+    saveUninitialized : true,
     store: new FileStore({
         path: __dirname + '/tmp',
         host: 'localhost', // optional 
@@ -24,9 +28,13 @@ const SessionOption = {
     }),
 };
 app.use(session(SessionOption));
-
+// app.use(livereload());
 var UserRouter = require('./route/userRouter');
+var ProductRouter = require('./route/productRouter');
+var CartRouter = require('./route/cartRouter');
 app.use(UserRouter);
+app.use(ProductRouter(express));
+app.use(CartRouter(express));
 
 // database config
 mongoose.Promise = global.Promise;
