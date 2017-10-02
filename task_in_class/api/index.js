@@ -11,7 +11,7 @@ const app = express();
 
 app.use('/css', express.static(__dirname + '/view/css'));
 app.use('/js', express.static(__dirname + '/view/js'));
-app.use(bodyParse.urlencoded());
+app.use(bodyParse.urlencoded({extended: true}));
 app.use(bodyParse.json());
 const SessionOption = {
     name: 'my.connect.sid',
@@ -38,9 +38,11 @@ app.use(CartRouter(express));
 
 // database config
 mongoose.Promise = global.Promise;
-mongoose.connect(`mongodb://localhost/${database}`, (err) => {
-    console.log('connected db')
-});
+mongoose.connect(`mongodb://localhost/${database}`, {
+                    useMongoClient: true
+                }, (err) => {
+                    console.log('connected db')
+                });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {

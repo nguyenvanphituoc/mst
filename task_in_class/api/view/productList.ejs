@@ -3,9 +3,36 @@
         <title>Product List</title>
         <link href="/css/bootstrap.min.css" rel="stylesheet">
         <link href="/css/bootstrap.css" rel="stylesheet">
+        <link href="/css/bootstrap-grid.css" rel="stylesheet">
+        <link href="/css/bootstrap-grid.css.map" rel="stylesheet">
+        <link href="/css/bootstrap-grid.min.css" rel="stylesheet">
+        <link href="/css/bootstrap-grid.min.css.map" rel="stylesheet">
+        <script scr="/js/bootstrap.js"></script>
+        <script scr="/js/bootstrap.min.js"></script>
     </header>
     <body>
         <div class='container' style="padding-top: 100px;">
+            <form action="/product/list" class="form-inline" id="search-form" method="GET">
+                <div class="form-group">
+                    <label class="form-control-label" for="search">Search for: </label>
+                    <div class="">
+                        <input type="string" class="form-control" placeholder="search text" name="q" id="search">
+                    </div>
+                </div>
+                <div class="form-group">
+                        <label class="form-control-label" for="from-value">From Value: </label>
+                        <div class="">
+                            <input type="number" class="form-control" placeholder="value" name="from" id="from-value">
+                        </div>
+                </div>
+                <div class="form-group">
+                        <label class="form-control-label" for="to-value">To Value: </label>
+                        <div class="">
+                            <input type="number" class="form-control" placeholder="value" name="to" id="to-value">
+                        </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Search">
+            </form>
             <form action="/product/list" method="POST" id="my-form" class="form">
                 <table class="table table-bordered table-hover table-responsive form-group">
                         <thead class="thead-inverse">
@@ -20,7 +47,7 @@
                             <% for (let i = 0; i < products.length; i++) { %>
                                 <% var product = products[i]; %>
                                     <tr class="form-group">
-                                        <td><input type="checkbox" class="my-checkbox"  id=<%= product._id %> > </td>
+                                        <td><input type="checkbox" class="my-checkbox" value=<%= product._id %>  id=<%= product._id %> > </td>
                                         <td>
                                             <%= product.name%>
                                         </td>
@@ -49,13 +76,15 @@
         src="https://code.jquery.com/jquery-3.2.1.js"
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
-        <script>
+        <script type="text/javascript">
             var form = document.getElementById('my-form');
+            // var searchForm = document.getElementById('search-form');
             if (form.attachEvent) {
                 form.attachEvent("submit", processForm);
             } else {
                 form.addEventListener("submit", processForm);
             }
+
             function processForm(e) {         
                 /* do what you want with the form */
                 var input = document.getElementById('myList');
@@ -63,6 +92,7 @@
                 // You must return false to prevent the default form behavior
                 return true;
             }
+
             function checkboxClick() {
                     let listProduct = []
                     let check = document.getElementsByClassName('my-checkbox');
@@ -74,7 +104,6 @@
                 }
                 return listProduct
             }
-           
         </script>
     </body>
 </html>

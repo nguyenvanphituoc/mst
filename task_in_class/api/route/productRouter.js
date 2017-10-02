@@ -15,6 +15,5 @@ module.exports = function (express) {
     route.route('/product/list')
         .get(productController.readAllProduct)
         .post(productController.addProductsToCart);
-
     return route
 };

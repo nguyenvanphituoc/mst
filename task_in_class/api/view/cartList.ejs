@@ -59,7 +59,6 @@
            function Delete (btn) {         
             let $html = document.getElementsByTagName('html')[0];
             let href = `/cart/${btn.id}`;
-            console.log(href);
 
             //new
             var xhr = new XMLHttpRequest();
@@ -67,7 +66,6 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     $html.innerHTML = xhr.responseText;
-                    console.log("loaded");
                 }
             }
             // open
