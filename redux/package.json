@@ -4,7 +4,7 @@
   "description": "learn redux",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src -d lib"
   },
   "keywords": [
     "redux",
@@ -17,6 +17,11 @@
     "redux": "^3.7.2"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
     "redux-devtools": "^3.4.0"
-  }
+  },
+  "presets": [
+    "env"
+  ]
 }
