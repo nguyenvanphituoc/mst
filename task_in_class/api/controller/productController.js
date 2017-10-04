@@ -7,48 +7,19 @@ const express = require('express'),
     app = express();
 
 module.exports.createAProduct = (req, res) => {
-    const name = req.body.name;
-    const desc = req.body.description;
-    const price = req.body.price;
-    //regex
-    var newPro = ProductModel({
-        name: name,
-        description: desc,
-        price: price
-    });
+    var newPro = ProductModel(req.body);
     newPro.save(function (err, produtc) {
-        if (!err) {
-            ejs.renderFile('./api/view/product.ejs', {
-                errMes: "Successful!"
-            }, (err, html) => {
-                res.end(html);
-            });
-        } else {
-            ejs.renderFile('./api/view/product.ejs', {
-                errMes: err
-            }, (err, html) => {
-                res.end(html);
-            });
-        }
-    });
-};
-
-module.exports.searchProduct = (req, res) => {
-    ProductModel.find({ name: req.params.search }, function (err, products) {
-        if (err)
-            res.send(err);
-        ejs.renderFile('./api/view/productList.ejs', { products: products ? products : [] }, (err, html) => {
-            if (err) {
-                res.send(err);
-            }
+        ejs.renderFile('./api/view/product.ejs', {
+            errMes: err ? err : "Successful!"
+        }, (err, html) => {
             res.end(html);
         });
     });
-}
+};
 
 module.exports.readAllProduct = (req, res) => {
     //
-    let txtQuery =  req.query.q ? {$text: {$search:  req.query.q}} : null;
+    let txtQuery =  req.query.q ? {$text: {$search: req.query.q}} : null;
     //
     let fromValue = req.query.from ? req.query.from : null;
     let toValue =  req.query.to ?  req.query.to : null;
