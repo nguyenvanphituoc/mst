@@ -4,12 +4,11 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Hero } from '../models/hero.model';
-import { HEROES } from '../components/hero-detail/mock-heroes';
 
 @Injectable()
 export class HeroService {
 
-    private heroesUrl = 'api/heroes';  // URL to web api
+    private heroesUrl = 'my/heroes';  // URL to web api
     
     private headers = new Headers({'Content-Type': 'application/json'});
     
