@@ -134,11 +134,11 @@ var UserSchema = new Schema({
 });
 
 UserSchema.pre('save', function(next) {
-    if (!this.isModified('passwd'))
+    if (!this.isModified('password'))
         return next();
-    bcrypt.hash(this.passwd, null, null, (err, hash) => {
+    bcrypt.hash(this.password, null, null, (err, hash) => {
         if (err) return next(err);
-        this.passwd = hash;
+        this.password = hash;
         next();
     });
 });

@@ -11,9 +11,9 @@ module.exports.createNewUser = (req, res) => {
     const passwd = req.body.passwd;
     //regex
     var newUser = User({
-        name: name,
+        username: name,
         email: email,
-        passwd: passwd
+        password: passwd
     });
     newUser.save(function (err, user) {
         if (!err) {
@@ -30,18 +30,23 @@ module.exports.createNewUser = (req, res) => {
 
 module.exports.readAUser = (req, res) => {
     const name = req.body.name;
-    const passwd = bcrypt.hashSync(req.body.passwd);
+    const passwd = req.body.passwd;
     //regex
     User.findOne({
-        name: name,
-        passwd: passwd
+        username: name
     }, (err, user) => {
         if (err) {
             console.log(err);
         } else {
-            if (user) {
-                req.session.name = user.name;
-                res.redirect('/about');
+            if (user && User.comparePasswd(passwd, user.password)) {
+                req.session.name = user.username;
+                req.session.save(function (err) {
+                    // session saved
+                    req.session.reload(function (err) {
+                        // session updated 
+                    res.redirect('/about');
+                    })
+                })
             } else {
                 req.session.name = null;
                 ejs.renderFile('./api/view/login.ejs', {

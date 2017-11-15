@@ -1,0 +1,85 @@
+<html>
+<header>
+  <title>Cart List</title>
+  <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+</header>
+
+<body>
+  <div class="container " style="padding-top: 100px;">
+    <!-- <form action="/product/list" method= "POST" id="my-form" class="form"> -->
+    <table class="table table-bordered table-hover table-responsive form-group">
+      <thead class="thead-inverse">
+        <tr>
+          <th> </th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Quality</th>
+          <th>Total Price</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cart of carts" class="form-group">
+          <td>
+            <input type="checkbox" class="my-checkbox" value="{{cart.product._id}}" id='{{cart.product._id}}'> </td>
+          <td>
+            {{cart.product.name}}
+          </td>
+          <td>
+            <p *ngIf="cart.product.description; else elseBlock"> {{cart.product.description}} </p>
+            <ng-template #elseBlock>none</ng-template>
+          </td>
+          <td>
+            {{cart.product.price}}
+          </td>
+          <td>
+            {{cart.quantity}}
+          </td>
+          <td>
+            {{cart.price}}
+          </td>
+          <td>
+            <button class="my-btn btn btn-danger" (click)="deleteCartItem(cart.product._id)" id={{cart.product._id}}>  Delete</button>
+
+          </td>
+          <td>
+            <a class="my-btn btn btn-secondary" href="/cart/{{cart.product._id}}">View more</a>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+      </tfoot>
+    </table>
+    <div class="form-group row">
+      <input type="hidden" name="products" id="myList">
+      <a class="btn btn-link col-sm-4" href="/product/list">Add more product</a>
+      <a class="btn col-sm-4 " href="/cart">
+        <span class="glyphicon glyphicon-envelope">Refresh</span>
+      </a>
+    </div>
+    <!-- </form> -->
+  </div>
+  <script>
+    function Delete(btn) {
+      let $html = document.getElementsByTagName('html')[0];
+      let href = `/cart/${btn.id}`;
+
+      //new
+      var xhr = new XMLHttpRequest();
+      // callback
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          $html.innerHTML = xhr.responseText;
+        }
+      }
+      // open
+      xhr.open('Delete', href);
+      //send
+      xhr.send();
+    }
+  </script>
+</body>
+
+</html>
